@@ -1,0 +1,4 @@
+2345|234567|OVD Ryazanskogo raiona|12.03.2016|
+Pupkin|Vasya|Petrovich|12.02.2002|Мужской|
+Rossiya|Ryazanskaya oblast|Ryazan|
+Rossya|Ryazanskaya oblast|Ryazan|lenina|3|4|
