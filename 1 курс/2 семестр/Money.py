@@ -142,11 +142,3 @@ class CNY:
         self.load()
         print(self.amount, self.name)
 
-
-rub = RUB()
-rub.amount = 10040
-rub.money_pr()
-
-cyn = CNY()
-cyn.amount = 1212
-cyn.money_pr()
