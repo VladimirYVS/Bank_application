@@ -263,9 +263,3 @@ class SNILS:
                 self.snils['Атрибуты СНИЛС'].download(strings[0])
                 self.snils['Данные держателя'].download(strings[1])
                 self.snils['Место рождения'].download(strings[2])
-
-
-snils = SNILS()
-snils.make()
-snils.safe_snils()
-snils.print_snils()
