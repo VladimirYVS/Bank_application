@@ -3,16 +3,40 @@ from os import chdir, mkdir, listdir
 
 
 class Name:
+    information = {'Фамилия': None,
+                   'Имя': None,
+                   'Отчество': None,
+                   'Дата рождения': None,
+                   'Пол': None}
 
-    def __init__(self, name, surname, patronymic, date, gender):
+    def make(self):
+        name = input('Введите имя: ')
+        surname = input('Введите Фамилию: ')
+        patronymic = input('Введите Отчество(если нет то "-"): ')
+        date = input('Ввведите дату рождения: ')
+        gender = input('Ввведите пол: ')
         self.information = {'Фамилия': surname,
                             'Имя': name,
                             'Отчество': patronymic,
                             'Дата рождения': date,
                             'Пол': gender}
 
-    def load(self):
+    def upload(self):
         return self.information
+
+    def download(self, strings):
+        string = strings.split('|')
+        self.information = {'Фамилия': string[0],
+                            'Имя': string[1],
+                            'Отчество': string[2],
+                            'Дата рождения': string[3],
+                            'Пол': string[4]}
+
+    def safe(self):
+        strings = ''
+        for key, value in self.information.items():
+            strings += value + '|'
+        return strings
 
     def print_name(self):
         for key, value in self.information.items():
@@ -21,21 +45,49 @@ class Name:
 
 class Address:
 
-    def __init__(self, country, state, city, street, house, apartment):
-        if street == '-' and house == '-' and apartment == '-':
-            self.information = {'Страна': country,
-                                'Субъект': state,
-                                'Город': city}
-        else:
-            self.information = {'Страна': country,
-                                'Субъект': state,
-                                'Город': city,
-                                'Улица': street,
-                                'Дом': house,
-                                'Квартира': apartment}
+    information = {'Страна': None,
+                   'Субъект': None,
+                   'Район': None,
+                   'Населенный пунк': None,
+                   'Улица': None,
+                   'Дом': None,
+                   'Квартира': None}
 
-    def load(self):
+    def make(self):
+        country = input('Введите страну: ')
+        state = input('Введите субъект: ')
+        district = input('Введите район: ')
+        city = input('Введите населенный пункт: ')
+        street = input('Введите улицу: ')
+        house = input('Введите дом: ')
+        apartment = input('Введите квартиру: ')
+
+        self.information = {'Страна': country,
+                            'Субъект': state,
+                            'Район': district,
+                            'Населенный пункт': city,
+                            'Улица': street,
+                            'Дом': house,
+                            'Квартира': apartment}
+
+    def upload(self):
         return self.information
+
+    def download(self, strings):
+        string = strings.split('|')
+        self.information = {'Страна': string[0],
+                            'Субъект': string[1],
+                            'Район': string[2],
+                            'Населенный пункт': string[3],
+                            'Улица': string[4],
+                            'Дом': string[5],
+                            'Квартира': string[6]}
+
+    def safe(self):
+        strings = ''
+        for key, value in self.information.items():
+            strings += value + '|'
+        return strings
 
     def print_address(self):
         for key, value in self.information.items():
@@ -43,15 +95,37 @@ class Address:
 
 
 class Document:
+    information = {'Номер': None,
+                   'Серия': None,
+                   'Выдан': None,
+                   'Дата выдачи': None}
 
-    def __init__(self, number, series, date, issued):
-        self.information = {'Номер: ': number,
-                            'Серия: ': series,
-                            'Выдан: ': issued,
+    def make(self):
+        number = input('Введите номер документа : ')
+        series = input('Введите серию документа : ')
+        date = input('Введите дату выдачи документа : ')
+        issued = input('Введите кем выдан документ : ')
+
+        self.information = {'Номер': number,
+                            'Серия': series,
+                            'Выдан': issued,
                             'Дата выдачи': date}
 
-    def load(self):
+    def upload(self):
         return self.information
+
+    def download(self, strings):
+        string = strings.split('|')
+        self.information = {'Номер': string[0],
+                            'Серия': string[1],
+                            'Выдан': string[2],
+                            'Дата выдачи': string[3]}
+
+    def safe(self):
+        strings = ''
+        for key, value in self.information.items():
+            strings += value + '|'
+        return strings
 
     def print_document(self):
         for key, value in self.information.items():
@@ -60,79 +134,46 @@ class Document:
 
 class Passport:
 
-    name = Name(None, None, None, None, None)
-
-    address_birth = Address(None, None, None, '-', '-', '-')
-
-    passport_num = Document(None, None, None, None)
-
-    address_post = Address(None, None, None, None, None, None)
-
-    passport = {'Атрибуты паспорта': passport_num,
-                'ФИО': name,
-                'Место рождения': address_birth,
-                'Адрес прописки': address_post}
+    passport = {'Атрибуты паспорта': Document(),
+                'Данные держателя': Name(),
+                'Место рождения': Address(),
+                'Адрес прописки': Address()}
 
     def make(self):
         print('Заполинте данные паспорта')
-        print("Имя, Фамилия, Отчество")
-        self.name = Name(input('Введите имя: '),
-                         input('Введите Фамилию: '),
-                         input('Введите Отчество(если нет то "-"): '),
-                         input('Ввведите дату рождения'),
-                         input('Ввведите пол'))
-
-        print("Реквезиты паспорта")
-        self.passport_num = Document(input('Введите номер паспорта: : '),
-                                     input('Введите серию паспорта: '),
-                                     input('Введите дату выдачи паспорта: '),
-                                     input('Введите кем выдан паспорт: '))
-
-        print("Место рождения")
-        self.address_birth = Address(input('Введите Страну: '),
-                                     input('Введите Субъект: '),
-                                     input('Введите Город: '),
-                                     '-',
-                                     '-',
-                                     '-')
-
-        print("Место прописки")
-        self.address_post = Address(input('Введите Страну: '),
-                                    input('Введите Субъект: '),
-                                    input('Введите Город: '),
-                                    input('Введите Улицу: '),
-                                    input('Введите Дом: '),
-                                    input('Введите Квартиру: '))
-
-        self.passport = {'Атрибуты паспорта': self.passport_num,
-                         'ФИО': self.name,
-                         'Место рождения': self.address_birth,
-                         'Адрес прописки': self.address_post}
+        print("Заполните данные о держателе паспорта")
+        self.passport['Данные держателя'].make()
+        print("Заполните о паспорте")
+        self.passport['Атрибуты паспорта'].make()
+        print("Заполните данные о месте рождения")
+        self.passport['Место рождения'].make()
+        print("Заполните данные о месте прописки")
+        self.passport['Адрес прописки'].make()
 
     def print_document(self):
         print('Реквезиты паспорта: ')
-        info = self.passport_num.load()
+        info = self.passport['Атрибуты паспорта'].upload()
         for key, value in info.items():
             if value != '-':
                 print(key, '->', value)
 
     def print_name(self):
         print('ФИО: ')
-        info = self.name.load()
+        info = self.passport['Данные держателя'].upload()
         for key, value in info.items():
             if value != '-':
                 print(key, '->', value)
 
     def print_address(self):
         print('Адрес прописки: ')
-        info = self.address_post.load()
+        info = self.passport['Адрес прописки'].upload()
         for key, value in info.items():
             if value != '-':
                 print(key, '->', value)
 
     def print_address_birth(self):
         print('Место Рождения: ')
-        info = self.address_birth.load()
+        info = self.passport['Место рождения'].upload()
         for key, value in info.items():
             if value != '-':
                 print(key, '->', value)
@@ -147,10 +188,8 @@ class Passport:
     def safe_passport(self):
         with open('passport.txt', 'w') as passport_text:
             for name, value in self.passport.items():
-
-                for name_2, value_2 in value.load().items():
-                    passport_text.write(str(value_2) + '|')
-                passport_text.write('\n')
+                string = value.safe() + '\n'
+                passport_text.write(string)
 
     def load_passport(self):
 
@@ -158,68 +197,45 @@ class Passport:
             with open('passport.txt', 'r') as passport_text:
                 passport = passport_text.readlines()
 
-                ser, num, date, issued = passport[0].split('|')[0:-1]
-                self.passport_num = Document(ser, num, date, issued)
-
-                surname, name, patronymic, date, gender = passport[1].split('|')[0:-1]
-                self.name = Name(name, surname, patronymic, date, gender)
-
-                country, state, city = passport[2].split('|')[0:-1]
-                self.address_birth = Address(country, state, city, '-', '-', '-')
-
-                country, state, city, street, house, apartment = passport[3].split('|')[0:-1]
-                self.address_post = Address(country, state, city, street, house, apartment)
-
-                self.passport = {'Атрибуты паспорта': self.passport_num,
-                                 'ФИО': self.name,
-                                 'Место рождения': self.address_birth,
-                                 'Адрес прописки': self.address_post}
+                self.passport['Атрибуты паспорта'].download(passport[0].strip('\n'))
+                self.passport['Данные держателя'].download(passport[1].strip('\n'))
+                self.passport['Место рождения'].download(passport[2].strip('\n'))
+                self.passport['Адрес прописки'].download(passport[3].strip('\n'))
 
 
 class SNILS:
 
-    snils_nom = Document(None, None, None, None)
-    snils_name = Name(None, None, None, None, None)
-    snils_address_birth = Address(None, None, None, '-', '-', '-')
-
-    snils = {'Атрибуты СНИЛС': snils_nom,
-             'ФИО': snils_name,
-             'Место рождения': snils_address_birth}
+    snils = {'Атрибуты СНИЛС': Document(),
+             'Данные держателя': Name(),
+             'Место рождения': Address()}
 
     def make(self):
-        self.snils_nom = Document(input('ВВедите номер СНИЛС: '), '-', input('ВВедите дату регистрации: '), '-')
-        self.snils_name = Name(input('Введите имя: '),
-                               input('Введите Фамилию: '),
-                               input('Введите Отчество(если нет то "-"): '),
-                               input('Ввведите дату рождения'),
-                               input('Ввведите пол'))
-        self.snils_address_birth = Address(input('Введите Страну: '),
-                                           input('Введите Субъект: '),
-                                           input('Введите Город: '),
-                                           '-',
-                                           '-',
-                                           '-')
-        self.snils = {'Атрибуты СНИЛС': self.snils_nom,
-                      'ФИО': self.snils_name,
-                      'Место рождения': self.snils_address_birth}
+
+        print('Заполинте данные СНИЛС')
+        print("Заполните данные о держателе Снилс")
+        self.snils['Данные держателя'].make()
+        print("Заполните о СНИЛС")
+        self.snils['Атрибуты СНИЛС'].make()
+        print("Заполните данные о месте рождения")
+        self.snils['Место рождения'].make()
 
     def print_document(self):
         print('Реквезиты СНИЛС: ')
-        info = self.snils_nom.load()
+        info = self.snils['Атрибуты СНИЛС'].upload()
         for key, value in info.items():
             if value != '-':
                 print(key, '->', value)
 
     def print_name(self):
         print('ФИО: ')
-        info = self.snils_name.load()
+        info = self.snils['Данные держателя'].upload()
         for key, value in info.items():
             if value != '-':
                 print(key, '->', value)
 
     def print_address_birth(self):
         print('Место Рождения: ')
-        info = self.snils_address_birth.load()
+        info = self.snils['Место рождения'].upload()
         for key, value in info.items():
             if value != '-':
                 print(key, '->', value)
@@ -232,10 +248,8 @@ class SNILS:
     def safe_snils(self):
         with open('snils.txt', 'w') as snils_text:
             for name, value in self.snils.items():
-
-                for name_2, value_2 in value.load().items():
-                    snils_text.write(str(value_2) + '|')
-                snils_text.write('\n')
+                string = value.safe() + '\n'
+                snils_text.write(string)
 
     def load_snils(self):
 
@@ -243,18 +257,15 @@ class SNILS:
             with open('snils.txt', 'r') as snils_text:
                 snils = snils_text.readlines()
 
-                num, series, date, issued = snils[0].split('|')[0:-1]
-                self.snils_nom = Document(num, series, date, issued)
-
-                name, surname, patronymic, date, gender = snils[1].split('|')[0:-1]
-                self.snils_name = Name(name, surname, patronymic, date, gender)
-
-                country, state, city = snils[2].split('|')[0:-1]
-                self.snils_address_birth = Address(country, state, city, '-', '-', '-')
-
-                self.snils = {'Атрибуты СНИЛС': self.snils_nom,
-                              'ФИО': self.snils_name,
-                              'Место рождения': self.snils_address_birth}
+                strings = []
+                for i in snils:
+                    strings += i[0:-1]
+                self.snils['Атрибуты СНИЛС'].download(strings[0])
+                self.snils['Данные держателя'].download(strings[1])
+                self.snils['Место рождения'].download(strings[2])
 
 
-
+snils = SNILS()
+snils.make()
+snils.safe_snils()
+snils.print_snils()

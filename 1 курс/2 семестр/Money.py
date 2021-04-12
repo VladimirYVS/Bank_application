@@ -29,18 +29,14 @@ class RUB:
         else:
             self.name = names.get(11)
 
-
-
     def money_pr(self):
         self.load()
         print(self.amount, self.name)
 
 
-
-
 class EUR:
     cost = RUB().cost * 73.2317
-    amount = 87.3508
+    amount = 0
     name = 'Евро'
 
     def money_pr(self):
@@ -76,11 +72,10 @@ class USD:
         else:
             self.name = names.get(11)
 
-
-
     def money_pr(self):
         self.load()
         print(self.amount, self.name)
+
 
 class JPY:
     cost = RUB().cost * 11.2612
@@ -110,14 +105,9 @@ class JPY:
         else:
             self.name = names.get(11)
 
-
-
     def money_pr(self):
         self.load()
         print(self.amount, self.name)
-
-
-
 
 
 class CNY:

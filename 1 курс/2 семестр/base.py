@@ -1,25 +1,22 @@
-import uuid, Money
+import uuid, Money, Person
 
 class Account:
     id = None
-    name = None
-    surname = None
-    patronymic = None
-    money = {}
+    full_name = None
+    currency  = {}
     doc = {}
+
 
     def make(self):
         self.id = uuid.uuid4()
-        self.name = input('Введите имя: ')
-        self.surname = input('Введите фамилию: ')
-        self.patronymic = input('Введите Отчество: ')
-
-        self.money += {RUB().amount = input('Введите количество рублей: '): 112}
+        self.full_name = Person.Name()
+        ruble = Money.RUB()
+        ruble.amount  = input('Введите колличество рублей на счету')
+        ruble.load()
+        self.currency = {ruble.amount : ruble.name}
         self.doc = {'ИД': self.id,
-                    'Имя': self.name,
-                    'Фамилия': self.surname,
-                    'Отчество': self.patronymic,
-                    'Деньги': self.money}
+                    'Имя': self.full_name,
+                    'Деньги': self.currency}
 
     def print_acc(self):
         print(self.doc.items())
