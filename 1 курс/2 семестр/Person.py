@@ -3,55 +3,63 @@ from os import chdir, mkdir, listdir
 
 
 class Name:
-    information = {'Фамилия': None,
-                   'Имя': None,
-                   'Отчество': None,
-                   'Дата рождения': None,
-                   'Пол': None}
+    name_information = {}
 
-    def make(self):
+    def __init__(self):
+        super().__init__()
+        self.name_information = {'Фамилия': '-',
+                                 'Имя': '-',
+                                 'Отчество': '-',
+                                 'Дата рождения': '-',
+                                 'Пол': '-'}
+
+    def make_name(self):
         name = input('Введите имя: ')
         surname = input('Введите Фамилию: ')
         patronymic = input('Введите Отчество(если нет то "-"): ')
         date = input('Ввведите дату рождения: ')
         gender = input('Ввведите пол: ')
-        self.information = {'Фамилия': surname,
-                            'Имя': name,
-                            'Отчество': patronymic,
-                            'Дата рождения': date,
-                            'Пол': gender}
+        self.name_information = {'Фамилия': surname,
+                                 'Имя': name,
+                                 'Отчество': patronymic,
+                                 'Дата рождения': date,
+                                 'Пол': gender}
 
     def upload(self):
-        return self.information
+        return self.name_information
 
     def download(self, strings):
         string = strings.split('|')
-        self.information = {'Фамилия': string[0],
-                            'Имя': string[1],
-                            'Отчество': string[2],
-                            'Дата рождения': string[3],
-                            'Пол': string[4]}
+        self.name_information = {'Фамилия': string[0],
+                                 'Имя': string[1],
+                                 'Отчество': string[2],
+                                 'Дата рождения': string[3],
+                                 'Пол': string[4]}
 
     def safe(self):
         strings = ''
-        for key, value in self.information.items():
+        for key, value in self.name_information.items():
             strings += value + '|'
         return strings
 
     def print_name(self):
-        for key, value in self.information.items():
+        for key, value in self.name_information.items():
             print(key, value)
 
 
 class Address:
 
-    information = {'Страна': None,
-                   'Субъект': None,
-                   'Район': None,
-                   'Населенный пунк': None,
-                   'Улица': None,
-                   'Дом': None,
-                   'Квартира': None}
+    address_information = {}
+
+    def __init__(self):
+        super().__init__()
+        self.address_information = {'Страна': '-',
+                                    'Субъект': '-',
+                                    'Район': '-',
+                                    'Населенный пункт': '-',
+                                    'Улица': '-',
+                                    'Дом': '-',
+                                    'Квартира': '-'}
 
     def make(self):
         country = input('Введите страну: ')
@@ -62,7 +70,7 @@ class Address:
         house = input('Введите дом: ')
         apartment = input('Введите квартиру: ')
 
-        self.information = {'Страна': country,
+        self.address_information = {'Страна': country,
                             'Субъект': state,
                             'Район': district,
                             'Населенный пункт': city,
@@ -71,26 +79,26 @@ class Address:
                             'Квартира': apartment}
 
     def upload(self):
-        return self.information
+        return self.address_information
 
     def download(self, strings):
         string = strings.split('|')
-        self.information = {'Страна': string[0],
-                            'Субъект': string[1],
-                            'Район': string[2],
-                            'Населенный пункт': string[3],
-                            'Улица': string[4],
-                            'Дом': string[5],
-                            'Квартира': string[6]}
+        self.address_information = {'Страна': string[0],
+                                    'Субъект': string[1],
+                                    'Район': string[2],
+                                    'Населенный пункт': string[3],
+                                    'Улица': string[4],
+                                    'Дом': string[5],
+                                    'Квартира': string[6]}
 
     def safe(self):
         strings = ''
-        for key, value in self.information.items():
+        for key, value in self.address_information.items():
             strings += value + '|'
         return strings
 
     def print_address(self):
-        for key, value in self.information.items():
+        for key, value in self.address_information.items():
             print(key, value)
 
 

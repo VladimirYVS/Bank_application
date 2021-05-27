@@ -16,15 +16,16 @@ class RUB:
                  11: 'Рублей',
                  12: 'Рублей',
                  13: 'Рублей'}
-        if str(self.amount)[-1] == "1" and self.amount != 11:
+
+        if int(self.amount) == 1 or str(self.amount)[-1] == "1" and self.amount != 11:
             self.name = names.get(1)
-        elif str(self.amount)[-1] == "2" and self.amount != 12:
+        elif int(self.amount) == 2 or str(self.amount)[-1] == "2" and self.amount != 12:
             self.name = names.get(2)
-        elif str(self.amount)[-1] == "3" and self.amount != 13:
+        elif int(self.amount) == 3 or str(self.amount)[-1] == "3" and self.amount != 13:
             self.name = names.get(3)
-        elif str(self.amount)[-1] == "4" and self.amount != 14:
+        elif int(self.amount) == 4 or str(self.amount)[-1] == "4" and self.amount != 14:
             self.name = names.get(2)
-        elif int(str(self.amount)[-1]) >= 5:
+        elif int(self.amount) >= 5 or int(str(self.amount)[-1]) >= 5:
             self.name = names.get(11)
         else:
             self.name = names.get(11)
@@ -141,4 +142,3 @@ class CNY:
     def money_pr(self):
         self.load()
         print(self.amount, self.name)
-
