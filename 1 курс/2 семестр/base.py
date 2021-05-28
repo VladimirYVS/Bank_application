@@ -75,16 +75,16 @@ class Account(Person.Name, Person.Address):
 
     def print_acc(self):
 
-        for key, value in self.account_information:
+        for key, value in self.account_information.items():
             print(key, value)
-        for key, value in self.name_information:
+        for key, value in self.name_information.items():
             print(key, value)
-        for key, value in self.address_information:
+        for key, value in self.address_information.items():
             print(key, value)
 
     def __del__(self):
         del self.account_information
-        #del self.address_information
+        del self.address_information
         del self.name_information
 
 

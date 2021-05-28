@@ -21,14 +21,17 @@ def proofing_string(string):
 
 
 def check_account(id_ind):
-    for item in get_base:
-        if id_ind in item.split('|')[0]:
-            return 1
-        else:
-            return 0
+    get_local_base = DB.get()
+    indication = 0
+    for item in get_local_base:
+        id_ = item.split('|')[0]
+        if id_ind in id_.split(':')[1]:
+            indication += 1
+    return indication
 
 
 def safe_button(account, sets):
+    DB.refresh()
     if check_account(account.account_information['id']) == 0:
         count = 0
         gets = account.get()
@@ -39,14 +42,15 @@ def safe_button(account, sets):
         account.safe()
     else:
         record = DB.get()
-        for items in record:
-            info = items.split("|")
+        for items in range(0, len(record)):
+            info = record[items].split("|")
 
-            if account.account_information['id'] == info[0].split(':')[0]:
+            if account.account_information['id'] == info[0].split(':')[1]:
                 del record[items]
+                break
         with open('base.txt', 'w') as nw_base:
             nw_base.writelines(record)
-            safe_button(account, sets)
+        safe_button(account, sets)
 
 
 def label_fill(count_g, window):
@@ -63,16 +67,22 @@ def label_fill(count_g, window):
     return fill_frame
 
 
-def fill_account(window, account_=None):
-    read_non_read = StringVar()
-    read_non_read.set('normal')
-    if account_ is not None:
-        read_non_read = StringVar()
+def readonly(sets):
+    if read_non_read.get() == 'readonly':
+        read_non_read.set('normal')
+    else:
         read_non_read.set('readonly')
-        check = Checkbutton(window, text='Разрешить изменения', variable=read_non_read,
-                            textvariable='normal', onvalue=0)
 
-        check.place(x=200, y=10)
+    for ent in sets:
+        ent.config(state=read_non_read.get())
+
+
+def fill_account(window, account_=None):
+
+    if account_ is not None:
+        normal_button = Button(window, text='Редактировать', command=lambda: readonly(sets))
+        normal_button.place(x=100, y=10)
+        read_non_read.set('readonly')
         account = account_
 
     else:
@@ -99,31 +109,30 @@ def fill_account(window, account_=None):
                 account.make()
                 ent.insert(0, account.account_information['id'])
                 ent.grid(row=count, column=1)
-                ent.config(state=read_non_read.get())
+                ent.config(state='readonly')
+
             elif key == 'id' and value != '-':
                 ent = Entry(frame, font=("Arial", 12), width=40)
                 ent.insert(0, account.account_information['id'])
                 ent.grid(row=count, column=1)
-                ent.config(state=read_non_read.get())
+                ent.config(state='readonly')
 
             elif key in ('RUB', 'USD', 'EUR', 'CYN', 'JPY'):
                 ent = Entry(frame, font=("Arial", 12), width=40)
                 ent.insert(0, str(value))
                 ent.grid(row=count, column=1)
                 ent.config(state=read_non_read.get())
+
             else:
                 ent = Entry(frame, font=("Arial", 12), width=40)
                 ent.grid(row=count, column=1)
                 ent.insert(0, str(value))
                 ent.config(state=read_non_read.get())
+
             sets += [ent]
 
             count += 1
         count_g += 1
-
-
-def to_change_account_window(value):
-    print(value.get())
 
 
 def fill_account_window():
@@ -132,11 +141,11 @@ def fill_account_window():
     top.bind('<Destroy>', refresh_table)
 
 
-def top_lvl():
+def top_lvl(geometry='550x650'):
 
     top = Toplevel()
     top.title('ХренФинансБанк')
-    top.geometry('550x650')
+    top.geometry(geometry)
     photo = PhotoImage(file='ХФБ.png')
     top.iconphoto(False, photo)
 
@@ -227,10 +236,11 @@ def print_find_base(event):
 
 
 def the_change(id_):
-    print(id_.get())
+
     row = DB.find_row(id_.get())
+
     acc = base.Account()
-    acc.download(str(row))
+    acc.download(str(row[0]))
     top = top_lvl()
     fill_account(top, acc)
 
@@ -242,6 +252,10 @@ main_window.geometry('1400x500')
 
 photo = PhotoImage(file='ХФБ.png')
 main_window.iconphoto(False, photo)
+
+# var for checkbutton
+read_non_read = StringVar()
+read_non_read.set('normal')
 
 # button for create a new account
 button = Button(main_window, text='Создать Аккаунт', command=fill_account_window)
@@ -282,7 +296,6 @@ search_entry = Entry(main_window, width=30, font=('Arial', 12), textvariable=tex
 search_entry.place(x=900, y=5)
 
 search_entry.bind('<Key>', print_find_base)
-
 
 # window mainloop
 main_window.mainloop()
